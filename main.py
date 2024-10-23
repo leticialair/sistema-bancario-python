@@ -58,7 +58,7 @@ class OperacoesBancarias:
 
         return (extrato, valor_saldo, contagem_saque)
 
-    def imprimir_extrato(extrato: str, valor_saldo: float) -> None:
+    def imprimir_extrato(self, extrato: str, valor_saldo: float) -> None:
         print("============== EXTRATO ==============\n")
         if extrato is None:
             print("Não foram realizadas movimentações.\n")
