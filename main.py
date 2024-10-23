@@ -5,6 +5,8 @@ extrato = ""
 valor_saldo = 0
 contagem_saque = 0
 dict_usuarios = {}
+dict_contas = {}
+agencia = "001"
 
 
 class OperacoesBancarias:
@@ -20,6 +22,8 @@ class OperacoesBancarias:
                 [d] Depósito
                 [s] Saque
                 [e] Extrato
+                [u] Criar usuário
+                [c] Criar conta
                 [q] Sair do sistema
 
                 ==> """
@@ -71,22 +75,40 @@ class OperacoesBancarias:
 
         return
 
-    def criar_usuario(self, dict_usuarios: dict):
-        cpf = input("Digite seu CPF (apenas números): ")
+    def criar_usuario(self, cpf: str, dict_usuarios: dict) -> dict:
         if cpf in dict_usuarios.keys():
             print("Esse CPF já possui um usuário associado.")
 
-        nome = input("Digite seu nome completo: ")
-        data_nascimento = input("Digite sua data de nascimento (formato 01/01/1900): ")
-        endereco = input("Digite seu endereço: ")
+        else:
+            nome = input("Digite seu nome completo: ")
+            data_nascimento = input(
+                "Digite sua data de nascimento (formato 01/01/1900): "
+            )
+            endereco = input("Digite seu endereço: ")
 
-        dict_usuarios[cpf] = {
-            "nome": nome,
-            "data_nascimento": data_nascimento,
-            "endereco": endereco,
-        }
+            dict_usuarios[cpf] = {
+                "nome": nome,
+                "data_nascimento": data_nascimento,
+                "endereco": endereco,
+            }
 
         return dict_usuarios
+
+    def criar_conta(
+        self,
+        cpf: str,
+        dict_usuarios: dict,
+        dict_contas: dict,
+        agencia: str,
+        numero_conta: str,
+    ) -> Tuple[dict, dict]:
+        if cpf not in dict_usuarios.keys():
+            print("Usuário não cadastrado. Favor cadastrar antes de abrir a conta.")
+
+        else:
+            dict_contas[cpf] = {"agencia": agencia, "numero_conta": numero_conta}
+
+        return (dict_usuarios, dict_contas)
 
 
 while True:
@@ -110,6 +132,17 @@ while True:
 
     elif opcao == "e":
         OperacoesBancarias().imprimir_extrato(extrato, valor_saldo=valor_saldo)
+
+    elif opcao == "u":
+        cpf = input("Digite seu CPF (apenas números): ")
+        dict_usuarios = OperacoesBancarias().criar_usuario(cpf, dict_usuarios)
+
+    elif opcao == "c":
+        cpf = input("Digite seu CPF (apenas números): ")
+        numero_conta = len(dict_contas.keys()) + 1
+        dict_usuarios, dict_contas = OperacoesBancarias().criar_conta(
+            cpf, dict_usuarios, dict_contas, agencia, numero_conta
+        )
 
     elif opcao == "q":
         break
