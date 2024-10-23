@@ -1,12 +1,19 @@
-menu = """
-Digite a letra da operação desejada:
+class OperacoesBancarias:
 
-[d] Depósito
-[s] Saque
-[e] Extrato
-[q] Sair do sistema
+    def __init__(self):
+        pass
 
-==> """
+    def exibir_menu(self):
+        return """
+                Digite a letra da operação desejada:
+
+                [d] Depósito
+                [s] Saque
+                [e] Extrato
+                [q] Sair do sistema
+
+                ==> """
+
 
 extrato = ""
 valor_saldo = 0
@@ -17,7 +24,7 @@ CONTAGEM_LIMITE_SAQUE = 3
 
 while True:
 
-    opcao = input(menu)
+    opcao = input(OperacoesBancarias().exibir_menu())
 
     if opcao == "d":
         valor = float(input("Informe o valor do depósito: "))
