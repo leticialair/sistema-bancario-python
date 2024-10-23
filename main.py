@@ -1,8 +1,10 @@
 from typing import Tuple
 
+# Definindo valores iniciais
 extrato = ""
 valor_saldo = 0
 contagem_saque = 0
+dict_usuarios = {}
 
 
 class OperacoesBancarias:
@@ -68,6 +70,23 @@ class OperacoesBancarias:
         print("=====================================")
 
         return
+
+    def criar_usuario(self, dict_usuarios: dict):
+        cpf = input("Digite seu CPF (apenas números): ")
+        if cpf in dict_usuarios.keys():
+            print("Esse CPF já possui um usuário associado.")
+
+        nome = input("Digite seu nome completo: ")
+        data_nascimento = input("Digite sua data de nascimento (formato 01/01/1900): ")
+        endereco = input("Digite seu endereço: ")
+
+        dict_usuarios[cpf] = {
+            "nome": nome,
+            "data_nascimento": data_nascimento,
+            "endereco": endereco,
+        }
+
+        return dict_usuarios
 
 
 while True:
