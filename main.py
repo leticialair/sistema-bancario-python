@@ -23,7 +23,7 @@ class OperacoesBancarias:
                 ==> """
 
     def depositar(
-        self, extrato: str, valor_saldo: float, valor: float
+        self, extrato: str, valor_saldo: float, valor: float, /
     ) -> Tuple[str, float]:
         if valor > 0:
             extrato += f"Depósito: R$ {valor:.2f}\n"
@@ -35,7 +35,7 @@ class OperacoesBancarias:
         return (extrato, valor_saldo)
 
     def sacar(
-        self, extrato: str, valor_saldo: float, contagem_saque: int, valor: float
+        self, *, extrato: str, valor_saldo: float, contagem_saque: int, valor: float
     ) -> Tuple[str, float, int]:
         if valor > valor_saldo:
             print("Não há saldo suficiente para o saque solicitado.")
@@ -58,7 +58,7 @@ class OperacoesBancarias:
 
         return (extrato, valor_saldo, contagem_saque)
 
-    def imprimir_extrato(self, extrato: str, valor_saldo: float) -> None:
+    def imprimir_extrato(self, extrato: str, /, *, valor_saldo: float) -> None:
         print("============== EXTRATO ==============\n")
         if extrato is None:
             print("Não foram realizadas movimentações.\n")
@@ -83,11 +83,14 @@ while True:
     elif opcao == "s":
         valor = float(input("Informe o valor do saque: "))
         extrato, valor_saldo, contagem_saque = OperacoesBancarias().sacar(
-            extrato, valor_saldo, contagem_saque, valor
+            extrato=extrato,
+            valor_saldo=valor_saldo,
+            contagem_saque=contagem_saque,
+            valor=valor,
         )
 
     elif opcao == "e":
-        OperacoesBancarias().imprimir_extrato(extrato, valor_saldo)
+        OperacoesBancarias().imprimir_extrato(extrato, valor_saldo=valor_saldo)
 
     elif opcao == "q":
         break
